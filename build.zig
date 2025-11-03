@@ -12,11 +12,6 @@ pub fn build(b: *std.Build) void {
         .registry = b.dependency("vulkan_headers", .{}).path("registry/vk.xml"),
     }).module("vulkan-zig");
 
-    const glfw_zig = b.dependency("glfw_zig", .{
-        .target = target,
-        .optimize = optimize,
-    });
-
     const zglfw = b.dependency("zglfw", .{
         .target = target,
         .optimize = optimize,
@@ -43,10 +38,12 @@ pub fn build(b: *std.Build) void {
 
     exe.root_module.addImport("vulkan", vulkan);
     exe.root_module.addImport("zgui", zgui.module("root"));
-    exe.root_module.addImport("zglfw", zglfw.module("glfw"));
+    exe.root_module.addImport("zglfw", zglfw.module("root"));
 
     // Link the compiled GLFW library from glfw_zig so zglfw's extern declarations resolve
-    exe.linkLibrary(glfw_zig.artifact("glfw"));
+    if (target.result.os.tag != .emscripten) {
+        exe.linkLibrary(zglfw.artifact("glfw"));
+    }
     exe.linkLibrary(zgui.artifact("imgui"));
 
     b.installArtifact(exe);

@@ -1,27 +1,48 @@
 const std = @import("std");
 const glfw_vulkan_template = @import("glfw_vulkan_template");
+const glfw = @import("zglfw");
+const vk = @import("vulkan");
 
-pub fn main() !void {
-    // Prints to stderr, ignoring potential errors.
-    std.debug.print("All your {s} are belong to us.\n", .{"codebase"});
-    try glfw_vulkan_template.bufferedPrint();
+const WIDTH: u16 = 800;
+const HEIGHT: u16 = 600;
+var window: *glfw.Window = undefined;
+
+pub fn main() u8 {
+    run() catch return 1;
+
+    return 0;
 }
 
-test "simple test" {
-    const gpa = std.testing.allocator;
-    var list: std.ArrayList(i32) = .empty;
-    defer list.deinit(gpa); // Try commenting this out and see if zig detects the memory leak!
-    try list.append(gpa, 42);
-    try std.testing.expectEqual(@as(i32, 42), list.pop());
+fn run() !void {
+    try initWindow();
+    initVulkan();
+    mainLoop();
+    cleanup();
 }
 
-test "fuzz example" {
-    const Context = struct {
-        fn testOne(context: @This(), input: []const u8) anyerror!void {
-            _ = context;
-            // Try passing `--fuzz` to `zig build test` and see if it manages to fail this test case!
-            try std.testing.expect(!std.mem.eql(u8, "canyoufindme", input));
-        }
-    };
-    try std.testing.fuzz(Context{}, Context.testOne, .{});
+fn initWindow() !void {
+    try glfw.init();
+
+    std.debug.print("Initialized GLFW\n", .{});
+
+    glfw.windowHint(glfw.WindowHint.client_api, glfw.ClientApi.no_api);
+    glfw.windowHint(glfw.WindowHint.resizable, false);
+    window = try glfw.createWindow(WIDTH, HEIGHT, "Vulkan", null);
+    defer glfw.destroyWindow(window);
+
+    while (!window.shouldClose(window)) {
+        glfw.pollEvents();
+
+        // render your things here
+
+        window.swapBuffers();
+    }
+}
+fn initVulkan() void {}
+
+fn mainLoop() void {}
+
+fn cleanup() void {
+    glfw.destroyWindow(window);
+    glfw.terminate();
 }
