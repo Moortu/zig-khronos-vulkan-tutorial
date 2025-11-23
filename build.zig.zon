@@ -2,23 +2,23 @@
     .name = .glfw_vulkan_template,
     .version = "0.0.0",
     .fingerprint = 0x27cc6548d8e9bb0c, // Changing this has security and trust implications.
-    .minimum_zig_version = "0.15.1",
+    .minimum_zig_version = "0.16.0-dev.1441+2ea55d715",
     .dependencies = .{
         .vulkan_headers = .{
-            .url = "https://github.com/KhronosGroup/Vulkan-Headers/archive/v1.4.331.tar.gz",
-            .hash = "N-V-__8AANfdAwKbfb3eFVNd-aP7VS_ppsLVT8c6Ju0Rgsex",
-        },
-        .vulkan_zig = .{
-            .url = "git+https://github.com/Snektron/vulkan-zig?ref=zig-0.15-compat#f879074293f0e2f718c93fd19cc0a96260a3aa52",
-            .hash = "vulkan-0.0.0-r7Ytx6hBAwBUnt0XA-uOkR2hda4fAHFhQITNTgJpnFkY",
+            .url = "https://github.com/KhronosGroup/Vulkan-Headers/archive/v1.4.334.tar.gz",
+            .hash = "N-V-__8AAOY5EQK574vuhsqN45eOwimMBUlbQXNr7W7pJeiG",
         },
         .zgui = .{
-            .url = "git+https://github.com/zig-gamedev/zgui#ccc38b56f87911ecff19beb05b63051ddb31943e",
-            .hash = "zgui-0.6.0-dev--L6sZFbybQDHtS6UUY09kjI1tsfZISFdrOD45xyoCHjX",
+            .url = "git+https://github.com/zig-gamedev/zgui#22deaab3363ac0fd8f34b91a1cd66883199960f9",
+            .hash = "zgui-0.6.0-dev--L6sZATybQCK2aBUnZ_5VKga-60UiZZ0v4e0T9doN4iu",
         },
         .zglfw = .{
             .url = "git+https://github.com/zig-gamedev/zglfw#6034a5623312c58bf5e64c1a2b686691c28575f4",
             .hash = "zglfw-0.10.0-dev-zgVDNPKyIQCBi-wv_vxkvIQq1u0bP4D56Wszx_2mszc7",
+        },
+        .vulkan_zig = .{
+            .url = "git+https://github.com/Snektron/vulkan-zig#f69af7a9248982cf7536aaf32111843f1a4fa4a9",
+            .hash = "vulkan-0.0.0-r7Ytx91DAwDKIXS2K_fFa-c_SJ5py7K1eCKwPcc33NcQ",
         },
     },
 

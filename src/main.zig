@@ -67,21 +67,16 @@ const TriangleApplication = struct {
     fn initVulkan(self: *Self) !void {
         const allocator = std.heap.c_allocator;
 
-        // 1. Get required extensions from GLFW
         const req_extensions = try glfw.getRequiredInstanceExtensions();
 
-        // 2. Query how many instance extensions Vulkan supports
         var property_count: u32 = 0;
         _ = try self.vkb.enumerateInstanceExtensionProperties(null, &property_count, null);
 
-        // 3. Allocate buffer for extension properties
         var props = try allocator.alloc(vk.ExtensionProperties, property_count);
         defer allocator.free(props);
 
-        // 4. Fill extension properties
         _ = try self.vkb.enumerateInstanceExtensionProperties(null, &property_count, props.ptr);
 
-        // 5. Check that every GLFW-required extension is supported
         for (req_extensions) |ext_cstr| {
             if (!hasExtension(ext_cstr, props[0..property_count])) {
                 std.debug.print(
@@ -100,6 +95,7 @@ const TriangleApplication = struct {
                 .engine_version = @bitCast(vk.makeApiVersion(1, 0, 0, 0)),
                 .api_version = @bitCast(vk.API_VERSION_1_4),
             },
+            .pp_enabled_extension_names = req_extensions.ptr,
         };
         _ = try self.vkb.createInstance(&createInfo, null);
     }
